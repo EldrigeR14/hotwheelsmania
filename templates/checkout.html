@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+{% block title %}Procesar reserva{% endblock %}
+
+{% block content %}
+<div class="row g-3">
+  <div class="col-12 col-lg-7">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h1 class="h4 mb-3">Datos para la reserva</h1>
+
+        <form method="POST" action="{{ url_for('checkout') }}">
+          <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input class="form-control" type="text" name="name" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Teléfono</label>
+            <input class="form-control" type="text" name="phone" required placeholder="Ej: 6xxx-xxxx">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Instagram (usuario)</label>
+            <input class="form-control" type="text" name="instagram" required placeholder="@tucuenta">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Notas (opcional)</label>
+            <textarea class="form-control" name="notes" rows="3" placeholder="Entrega, punto de encuentro, etc."></textarea>
+          </div>
+
+          <button class="btn btn-success btn-lg w-100" type="submit">
+            Confirmar reserva
+          </button>
+
+          <a class="btn btn-outline-dark w-100 mt-2" href="{{ url_for('cart') }}">
+            ← Volver al carrito
+          </a>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-lg-5">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">Tu pedido</h5>
+        <ul class="list-group list-group-flush mb-3">
+          {% for item in cart_items %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                <div class="fw-semibold">{{ item.code }}</div>
+                <div class="text-muted small">{{ item.name }}</div>
+              </div>
+              <strong>${{ "%.2f"|format(item.price) }}</strong>
+            </li>
+          {% endfor %}
+        </ul>
+
+        <div class="d-flex justify-content-between">
+          <span class="fw-semibold">Total</span>
+          <span class="fw-bold">${{ "%.2f"|format(total) }}</span>
+        </div>
+
+        <div class="alert alert-warning mt-3 mb-0">
+          La reserva se confirma al enviar tus datos. Luego te contactaremos para pago y entrega.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

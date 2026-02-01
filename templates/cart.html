@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+{% block title %}Carrito | Reservas{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div>
+    <h1 class="h3 mb-1">Carrito de reservas</h1>
+    <p class="text-muted mb-0">Revisa tus Hot Wheels reservados antes de procesar.</p>
+  </div>
+
+  {% if cart_items %}
+    <a class="btn btn-outline-danger" href="{{ url_for('clear_cart') }}">Vaciar carrito</a>
+  {% endif %}
+</div>
+
+{% if not cart_items %}
+  <div class="alert alert-info">
+    Tu carrito está vacío. Ve a la <a href="{{ url_for('index') }}">vitrina</a> y reserva un Hot Wheels.
+  </div>
+{% else %}
+  <div class="row g-3">
+    <div class="col-12 col-lg-8">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          {% for item in cart_items %}
+            <div class="d-flex gap-3 py-2 align-items-center border-bottom">
+              <img src="{{ url_for('static', filename=item.image_path) if item.image_path else 'https://via.placeholder.com/160x120?text=HW' }}"
+                   style="width:96px;height:72px;object-fit:cover;border-radius:10px;" alt="HW">
+
+              <div class="flex-grow-1">
+                <div class="fw-semibold">{{ item.name }}</div>
+                <div class="text-muted small">Código: <strong>{{ item.code }}</strong> {% if item.category %}• {{ item.category }}{% endif %}</div>
+              </div>
+
+              <div class="text-end">
+                <div class="fw-semibold">${{ "%.2f"|format(item.price) }}</div>
+                <form class="mt-2" method="POST" action="{{ url_for('remove_from_cart', product_id=item.id) }}">
+                  <button class="btn btn-sm btn-outline-danger">Quitar</button>
+                </form>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Resumen</h5>
+          <div class="d-flex justify-content-between">
+            <span>Items</span>
+            <strong>{{ cart_items|length }}</strong>
+          </div>
+          <div class="d-flex justify-content-between mb-3">
+            <span>Total</span>
+            <strong>${{ "%.2f"|format(total) }}</strong>
+          </div>
+
+          <a href="{{ url_for('checkout') }}" class="btn btn-success w-100 btn-lg">
+            Procesar reserva
+          </a>
+
+          <a href="{{ url_for('index') }}" class="btn btn-outline-dark w-100 mt-2">
+            Seguir viendo
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}
+{% endblock %}

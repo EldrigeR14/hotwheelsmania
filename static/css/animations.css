@@ -1,0 +1,59 @@
+
+/* Transición de Fade-in al cargar la página */
+.fade-in {
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Animación para botones cuando el usuario hace hover */
+.button-hover {
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+/* Aumentar el tamaño del botón cuando el usuario pasa el mouse */
+.button-hover:hover {
+    transform: scale(1.1);
+    background-color: #0056b3; /* Cambiar color al hacer hover */
+}
+
+/* Animación de click en el botón */
+.button-hover:active {
+    transform: scale(0.95); /* Efecto de presión cuando el botón es presionado */
+}
+
+/* Efecto de hover para los botones de acción */
+button.btn-info, button.btn-warning, button.btn-danger {
+    transition: background-color 0.3s ease;
+}
+
+button.btn-info:hover {
+    background-color: #17a2b8;
+}
+
+button.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+button.btn-danger:hover {
+    background-color: #dc3545;
+}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+
+<!-- Estilo personalizado para los enlaces del menú -->
+<style>
+    .navbar-nav .nav-link {
+        color: white !important;
+    }
+    .navbar-nav .nav-link:hover {
+        color: #FFD700 !important;
+    }
+</style>

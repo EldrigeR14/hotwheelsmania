@@ -1,0 +1,44 @@
+/* Navbar estilo AES Panamá */
+.navbar {
+  background-color: #004B8D; /* Azul corporativo AES */
+  height: 56px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+/* Logo GIF */
+.navbar-brand img {
+  height: 80px;
+  transform: scale(1.5);
+  transform-origin: left center;
+  margin-top: -2px;
+}
+
+/* Texto del logo */
+.navbar-brand span {
+  font-weight: bold;
+  font-size: 1.25rem;
+  color: #ffffff;
+}
+
+/* Texto del menú */
+.nav-link {
+  color: #ffffff !important;
+  font-weight: 500;
+  margin-left: 15px;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #00ADEF !important; /* Azul secundario AES */
+}
+
+/* Botón hamburguesa */
+.navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.navbar-toggler-icon {
+  filter: invert(1);
+}

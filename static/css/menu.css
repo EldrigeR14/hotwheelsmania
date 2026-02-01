@@ -1,0 +1,63 @@
+/* Degradado en navbar */
+.bg-gradient {
+  background: linear-gradient(90deg, #004aad, #0069d9) !important;
+}
+
+/* Mega‑menu */
+.mega-menu {
+  width: 400px;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Cabeceras de columna */
+.mega-menu .dropdown-header {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #0069d9;
+  margin-bottom: 0.5rem;
+}
+
+/* Transición suave en items */
+.dropdown-item {
+  transition: background 0.2s, color 0.2s;
+}
+.dropdown-item:hover {
+  background-color: #e9f2ff;
+  color: #004aad;
+}
+
+/* Iconos junto al texto */
+.nav-link i {
+  margin-right: 5px;
+}
+
+/* Ajustes de padding en mega-menu */
+.mega-menu .row {
+  margin: 0;
+}
+.mega-menu .col-6 {
+  padding: 0.5rem;
+}
+
+/* Posicionar correctamente los sub-menús */
+.dropdown-submenu {
+  position: relative;
+}
+
+/* Mostrar el sub-menú a la derecha */
+.dropdown-submenu > .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin: 0;
+  border-radius: .25rem;
+}
+
+/* Menú desplegado */
+.dropdown-menu .dropdown-submenu:hover > .dropdown-menu {
+  display: block;
+}
+.navbar-brand img {
+  height: 40px;
+  width: auto;
+}

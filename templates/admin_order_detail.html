@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+{% block title %}Reserva {{ order.order_code }} | Admin{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+  <div>
+    <h1 class="h4 mb-1">Reserva: {{ order.order_code }}</h1>
+    <div class="text-muted">
+      {{ order.name }} • {{ order.phone }} • {{ order.instagram }}
+    </div>
+    {% if order.notes %}
+      <div class="text-muted small mt-1">Notas: {{ order.notes }}</div>
+    {% endif %}
+  </div>
+
+  <div class="text-end">
+    <div class="fw-semibold">Total: ${{ "%.2f"|format(order.total) }}</div>
+    <div class="text-muted small">{{ order.created_at }}</div>
+  </div>
+</div>
+
+<div class="row g-3">
+  <div class="col-12 col-lg-8">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Carritos reservados</h5>
+
+        {% for it in items %}
+          <div class="d-flex gap-3 align-items-center py-2 border-bottom">
+            <img src="{{ url_for('static', filename=it.image_path) if it.image_path else 'https://via.placeholder.com/160x120?text=HW' }}"
+                 style="width:96px;height:72px;object-fit:cover;border-radius:10px;" alt="HW">
+
+            <div class="flex-grow-1">
+              <div class="fw-semibold">{{ it.name }}</div>
+              <div class="text-muted small">
+                Código: <strong>{{ it.code }}</strong>
+                {% if it.category %} • {{ it.category }}{% endif %}
+              </div>
+            </div>
+
+            <div class="fw-semibold">${{ "%.2f"|format(it.price) }}</div>
+          </div>
+        {% else %}
+          <div class="text-muted">No hay items en esta reserva.</div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-lg-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">Estado</h5>
+
+        <div class="mb-2">
+          Estado actual:
+          <span class="badge text-bg-secondary">{{ order.status }}</span>
+        </div>
+
+        <form method="POST" action="{{ url_for('admin_order_update_status', order_code=order.order_code) }}">
+          <label class="form-label">Cambiar a:</label>
+          <select class="form-select mb-3" name="status" required>
+            <option value="reserved" {% if order.status=='reserved' %}selected{% endif %}>reserved</option>
+            <option value="contacted" {% if order.status=='contacted' %}selected{% endif %}>contacted</option>
+            <option value="paid" {% if order.status=='paid' %}selected{% endif %}>paid</option>
+            <option value="delivered" {% if order.status=='delivered' %}selected{% endif %}>delivered</option>
+            <option value="cancelled" {% if order.status=='cancelled' %}selected{% endif %}>cancelled</option>
+          </select>
+
+          <button class="btn btn-dark w-100" type="submit">Guardar estado</button>
+        </form>
+
+        <a class="btn btn-outline-secondary w-100 mt-2" href="{{ url_for('admin_orders') }}">
+          ← Volver
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

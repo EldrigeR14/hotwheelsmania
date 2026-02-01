@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+{% block title %}Reserva confirmada{% endblock %}
+{% block content %}
+
+<div class="card shadow-sm">
+  <div class="card-body text-center py-5">
+    <h1 class="h3 mb-2">¡Reserva confirmada! 🎉</h1>
+    <p class="text-muted mb-3">
+      Gracias <strong>{{ name }}</strong>. Recibimos tu solicitud y te contactaremos para coordinar pago y entrega.
+    </p>
+
+    <div class="d-inline-block text-start mb-3">
+      <div><span class="text-muted">Código de reserva:</span> <strong>{{ order_code }}</strong></div>
+      <div><span class="text-muted">Total:</span> <strong>${{ "%.2f"|format(total) }}</strong></div>
+    </div>
+
+    <!-- 🧾 Detalle de carritos reservados -->
+    <div class="mt-3 text-start mx-auto" style="max-width: 420px;">
+      <h6 class="fw-semibold mb-2">Carritos reservados:</h6>
+      <ul class="list-unstyled mb-0">
+        {% for it in items %}
+          <li class="small">• {{ it.name }} — ${{ "%.2f"|format(it.price) }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- 📲 Mensaje WhatsApp -->
+    {% set ns = namespace(msg="📩 Reserva Hot Wheels\n" ~
+                        "Código: " ~ order_code ~ "\n" ~
+                        "Cliente: " ~ name ~
+                        ( " (" ~ instagram ~ ")" if instagram else "" ) ~
+                        "\n\n🏎️ Carritos:\n") %}
+
+{% for it in items %}
+  {% set ns.msg = ns.msg ~ "- " ~ it.name ~ " ($" ~ ("%.2f"|format(it.price)) ~ ")\n" %}
+{% endfor %}
+
+{% set ns.msg = ns.msg ~ "\n💲 Total: $" ~ ("%.2f"|format(total)) ~
+                     "\n👨🏻‍💻 Quedo atento(a) para coordinar pago y entrega." %}
+
+    <div class="mt-4 d-flex justify-content-center gap-2 flex-wrap">
+
+<a id="waBtn" class="btn btn-success" target="_blank" href="#">
+  📲 Enviar pedido por WhatsApp
+</a>
+
+
+      <a class="btn btn-dark" href="{{ url_for('index') }}">Volver a la vitrina</a>
+      <a class="btn btn-outline-secondary" href="{{ url_for('cart') }}">Ver carrito</a>
+    </div>
+
+    <p class="text-muted small mt-3">
+      Guarda tu código de reserva para futuras consultas.
+    </p>
+  </div>
+</div>
+<script>
+  (function () {
+    const phone = "50765678241"; // 👈 CAMBIA a tu número (Panamá: 507)
+    const lines = [];
+
+    lines.push("📩 Reserva Hot Wheels");
+    lines.push(`Código: {{ order_code }}`);
+    lines.push(`Cliente: {{ name }}{% if instagram %} ({{ instagram }}){% endif %}`);
+    lines.push("");
+    lines.push("🏎️ Carritos:");
+
+    {% for it in items %}
+      lines.push(`• {{ it.name }} (${{ "%.2f"|format(it.price) }})`);
+    {% endfor %}
+
+    lines.push("");
+    lines.push(`💲 Total: ${{ "%.2f"|format(total) }}`);
+    lines.push("👨🏻‍💻 Quedo atento(a) para coordinar pago y entrega.");
+
+    const msg = lines.join("\n");
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+
+    const btn = document.getElementById("waBtn");
+    btn.href = url;
+  })();
+</script>
+
+{% endblock %}

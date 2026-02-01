@@ -1,0 +1,16 @@
+{% macro human_date(dt) %}
+  {% if not dt %}
+    —
+  {% else %}
+    {% set date = dt[0:10] %}
+    {% set time = dt[11:16] %}
+    {% set hour = time[0:2]|int %}
+    {% set minute = time[3:5] %}
+
+    {% set ampm = "AM" if hour < 12 else "PM" %}
+    {% set hour12 = hour if hour <= 12 else hour - 12 %}
+    {% set hour12 = 12 if hour12 == 0 else hour12 %}
+
+    {{ date[8:10] }}/{{ date[5:7] }}/{{ date[0:4] }} {{ hour12 }}:{{ minute }} {{ ampm }}
+  {% endif %}
+{% endmacro %}

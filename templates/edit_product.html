@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+{% block title %}Editar | Admin{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-lg-7">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h1 class="h4 mb-3">Editar Hot Wheels</h1>
+
+        <form method="POST" action="{{ url_for('edit_product', product_id=producto.id) }}" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input class="form-control" type="text" name="name" value="{{ producto.name }}" required>
+          </div>
+
+          <div class="row g-2">
+            <div class="col-12 col-md-6 mb-3">
+              <label class="form-label">Código</label>
+              <input class="form-control" type="text" name="code" value="{{ producto.code }}" required>
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+              <label class="form-label">Categoría</label>
+              <input class="form-control" type="text" name="category" value="{{ producto.category }}">
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Precio</label>
+            <input class="form-control" type="number" step="0.01" name="price" value="{{ producto.price }}" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Descripción</label>
+            <textarea class="form-control" name="description" rows="4">{{ producto.description }}</textarea>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Actualizar imagen (opcional)</label>
+            <input class="form-control" type="file" name="image">
+            {% if producto.image_path %}
+              <div class="mt-2">
+                <img src="{{ url_for('static', filename=producto.image_path) }}"
+                     style="width:160px;height:120px;object-fit:cover;border-radius:10px" alt="HW">
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Estado</label>
+            <select class="form-select" name="status">
+              <option value="available" {% if producto.status=='available' %}selected{% endif %}>available</option>
+              <option value="reserved" {% if producto.status=='reserved' %}selected{% endif %}>reserved</option>
+              <option value="sold" {% if producto.status=='sold' %}selected{% endif %}>sold</option>
+            </select>
+          </div>
+
+          <button class="btn btn-success w-100" type="submit">Guardar cambios</button>
+          <a class="btn btn-outline-dark w-100 mt-2" href="{{ url_for('inventario_producto') }}">Volver</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

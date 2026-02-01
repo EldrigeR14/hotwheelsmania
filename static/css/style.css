@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f5f7fa;
+  color: #343a40;
+}
+
+.navbar {
+  background-color: #0069d9 !important;
+}
+.navbar-brand, .nav-link {
+  font-weight: 500;
+}
+.navbar-brand img {
+  height: 30px;
+  margin-right: 10px;
+}
+.nav-link:hover {
+  color: #ffd54f !important;
+}
+
+.container-card {
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.table thead th {
+  background-color: #0069d9;
+  color: #fff;
+}
+
+.btn-primary {
+  background-color: #0069d9;
+  border-color: #0062cc;
+}
+.btn-primary:hover {
+  background-color: #0053ba;
+}
+
+.btn-success {
+  background-color: #28a745;
+}
+.btn-warning {
+  background-color: #ffc107;
+  color: #212529;
+}
+.btn-danger {
+  background-color: #dc3545;
+}
+
+.card {
+  border: none;
+  border-radius: 0.5rem;
+}
+.card-header {
+  background-color: #0069d9;
+  color: #fff;
+  border-bottom: none;
+  font-weight: 500;
+}
+
+.fade-in {
+  animation: fadeIn 0.6s ease-in-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}HotWheelsmania | Vitrina & Reservas{% endblock %}</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+ <style>
+  .card-img-top{
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+  }
+
+  .badge-soft{
+    font-weight: 600;
+  }
+
+  .status-available{
+    background:#e8f5e9;
+    color:#1b5e20;
+  }
+
+  .status-reserved{
+    background:#fff8e1;
+    color:#8d6e00;
+  }
+
+  .status-sold{
+    background:#eceff1;
+    color:#37474f;
+  }
+
+  /* Truncado compatible con todos los editores */
+  .truncate-2{
+    max-height: 3em;   /* aprox 2 líneas */
+    overflow: hidden;
+  }
+</style>
+
+</head>
+
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark navbar-gif"
+     style="background-image: url('{{ url_for('static', filename='uploads/logo/negro.jpg') }}');">
+  <div class="container">
+<a class="navbar-brand d-flex align-items-center gap-2 fw-semibold"
+   href="{{ url_for('index') }}">
+  <img src="{{ url_for('static', filename='uploads/logo/logo.png') }}"
+       style="height:80px; width:auto;">
+  <span class="ms-5">HotWheelsmania</span>
+</a>
+
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('index') }}">Vitrina</a>
+        </li>
+      </ul>
+
+      <div class="d-flex gap-2">
+        <a class="btn btn-outline-light" href="{{ url_for('cart') }}">
+          Carrito
+          {% if session.get('cart_count') %}
+            <span class="badge text-bg-light ms-1">{{ session.get('cart_count') }}</span>
+          {% endif %}
+        </a>
+
+        {% if session.get('admin') %}
+          <a class="btn btn-warning" href="{{ url_for('inventario_producto') }}">Admin</a>
+          <a class="btn btn-outline-light" href="{{ url_for('admin_orders') }}">Reservas</a>
+          <a class="btn btn-outline-danger" href="{{ url_for('logout') }}">Salir</a>
+        {% else %}
+          <a class="btn btn-outline-secondary" href="{{ url_for('login') }}">Admin</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main class="container py-4">
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, msg in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+          {{ msg }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="py-4">
+  <div class="container text-center text-muted small">
+    © 2026 HotWheelsmania | Reservas
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

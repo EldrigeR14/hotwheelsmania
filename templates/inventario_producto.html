@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+{% block title %}Inventario | Admin{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div>
+    <h1 class="h3 mb-1">Inventario</h1>
+    <p class="text-muted mb-0">Administra tus Hot Wheels.</p>
+  </div>
+
+  <a class="btn btn-success" href="{{ url_for('add_product') }}">+ Agregar</a>
+</div>
+
+<div class="card shadow-sm">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-dark">
+        <tr>
+          <th>Foto</th>
+          <th>Nombre</th>
+          <th>Código</th>
+          <th>Categoría</th>
+          <th>Precio</th>
+          <th>Estado</th>
+          <th class="text-end">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in productos %}
+          <tr>
+            <td style="width:90px">
+              <img src="{{ url_for('static', filename=p.image_path) if p.image_path else 'https://via.placeholder.com/120x90?text=HW' }}"
+                   style="width:70px;height:52px;object-fit:cover;border-radius:8px" alt="HW">
+            </td>
+            <td class="fw-semibold">{{ p.name }}</td>
+            <td>{{ p.code }}</td>
+            <td>{{ p.category }}</td>
+            <td>${{ "%.2f"|format(p.price) }}</td>
+            <td>
+              <span class="badge
+                {% if p.status=='available' %}text-bg-success
+                {% elif p.status=='reserved' %}text-bg-warning
+                {% else %}text-bg-secondary{% endif %}">
+                {{ p.status }}
+              </span>
+            </td>
+            <td class="text-end">
+              <a class="btn btn-sm btn-outline-dark"
+                 href="{{ url_for('edit_product', product_id=p.id) }}">Editar</a>
+
+              <a class="btn btn-sm btn-outline-primary"
+                 href="{{ url_for('product_detail', product_id=p.id) }}">Ver</a>
+
+              <!-- ✅ BOTÓN ELIMINAR -->
+<form method="POST"
+      action="{{ url_for('delete_product', product_id=p.id) }}"
+      style="display:inline;"
+      onsubmit="return confirm('¿Eliminar este producto? Esta acción no se puede deshacer.');">
+  <button class="btn btn-sm btn-outline-danger" type="submit">Eliminar</button>
+</form>
+
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+

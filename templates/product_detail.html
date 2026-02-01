@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block title %}{{ product.name }} | Hot Wheels{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+  <div class="col-12 col-lg-6">
+    <div class="card shadow-sm">
+      <img class="img-fluid rounded"
+           src="{{ url_for('static', filename=product.image_path) if product.image_path else 'https://via.placeholder.com/900x700?text=Hot+Wheels' }}"
+           alt="Hot Wheels">
+    </div>
+  </div>
+
+  <div class="col-12 col-lg-6">
+    <h1 class="h3 mb-2">{{ product.name }}</h1>
+
+    <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
+      <span class="badge badge-soft
+        {% if product.status=='available' %}status-available{% elif product.status=='reserved' %}status-reserved{% else %}status-sold{% endif %}">
+        {% if product.status=='available' %}Disponible{% elif product.status=='reserved' %}Reservado{% else %}Agotado{% endif %}
+      </span>
+      <span class="text-muted">Código: <strong>{{ product.code }}</strong></span>
+      {% if product.category %}<span class="text-muted">• {{ product.category }}</span>{% endif %}
+    </div>
+
+    <div class="card shadow-sm mb-3">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="fs-4 fw-bold">${{ "%.2f"|format(product.price) }}</div>
+
+          {% if product.status == 'available' %}
+            <form method="POST" action="{{ url_for('add_to_cart', product_id=product.id) }}">
+              <button class="btn btn-success btn-lg">Reservar</button>
+            </form>
+          {% elif product.status == 'reserved' %}
+            <button class="btn btn-warning btn-lg" disabled>Reservado</button>
+          {% else %}
+            <button class="btn btn-secondary btn-lg" disabled>Agotado</button>
+          {% endif %}
+        </div>
+
+        <hr>
+        <p class="text-muted mb-0">{{ product.description or "Sin descripción." }}</p>
+      </div>
+    </div>
+
+    <div class="d-flex gap-2">
+      <a class="btn btn-outline-dark" href="{{ url_for('index') }}">← Volver</a>
+      <a class="btn btn-dark" href="{{ url_for('cart') }}">Ver carrito</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
